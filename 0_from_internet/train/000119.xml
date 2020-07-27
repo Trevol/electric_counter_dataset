@@ -1,0 +1,37 @@
+<annotation>
+    <folder></folder>
+    <filename>000119.jpeg</filename>
+    <path></path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>1024</width>
+        <height>1024</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>counter</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>226.49609375</xmin>
+            <ymin>19.8984375</ymin>
+            <xmax>845.289794921875</xmax>
+            <ymax>905.671630859375</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter_screen</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>412.3837890625</xmin>
+            <ymin>69.80078125</ymin>
+            <xmax>641.936279296875</xmax>
+            <ymax>190.8148651123047</ymax>
+        </bndbox>
+    </object>
+</annotation>

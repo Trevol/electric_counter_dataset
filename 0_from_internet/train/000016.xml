@@ -1,0 +1,81 @@
+<annotation>
+    <folder></folder>
+    <filename>000016.jpg</filename>
+    <path></path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>980</width>
+        <height>380</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>counter</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>666.63671875</xmin>
+            <ymin>35.376953125</ymin>
+            <xmax>937.2207336425781</xmax>
+            <ymax>368.07232666015625</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>29.53515625</xmin>
+            <ymin>32.302734375</ymin>
+            <xmax>302.57904052734375</xmax>
+            <ymax>364.99810791015625</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>370.224609375</xmin>
+            <ymin>23.693359375</ymin>
+            <xmax>603.9108123779297</xmax>
+            <ymax>370.53289794921875</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter_screen</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>750.2734375</xmin>
+            <ymin>112.248046875</ymin>
+            <xmax>854.2023010253906</xmax>
+            <ymax>137.4615592956543</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter_screen</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>106.4052734375</xmin>
+            <ymin>106.712890625</ymin>
+            <xmax>225.09326934814453</xmax>
+            <ymax>143.61071395874023</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter_screen</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>446.48046875</xmin>
+            <ymin>90.7236328125</ymin>
+            <xmax>528.270637512207</xmax>
+            <ymax>116.55210876464844</ymax>
+        </bndbox>
+    </object>
+</annotation>

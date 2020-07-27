@@ -1,0 +1,37 @@
+<annotation>
+    <folder></folder>
+    <filename>000038.jpg</filename>
+    <path></path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>400</width>
+        <height>400</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>counter</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>46.078125</xmin>
+            <ymin>28.728515625</ymin>
+            <xmax>356.0207824707031</xmax>
+            <ymax>378.63232421875</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>counter_screen</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>88.962890625</xmin>
+            <ymin>76.974609375</ymin>
+            <xmax>194.7137680053711</xmax>
+            <ymax>105.23982048034668</ymax>
+        </bndbox>
+    </object>
+</annotation>
