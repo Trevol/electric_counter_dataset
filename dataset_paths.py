@@ -10,8 +10,7 @@ paths = [
     "/hdd/Datasets/counters/data/6_from_phone",
     "/hdd/Datasets/counters/data/7_from_app",
     "/hdd/Datasets/counters/data/8_from_phone",
-    "/hdd/Datasets/counters/data/Musson_counters/train",
-    "/hdd/Datasets/counters/data/Musson_counters/val",
+    "/hdd/Datasets/counters/data/Musson_counters",
     "/hdd/Datasets/counters/data/Musson_counters_2",
     "/hdd/Datasets/counters/data/Musson_counters_3"
 ]
