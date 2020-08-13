@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Musson_counters_3</folder>
+	<filename>20200724_100703.jpg</filename>
+	<path>/hdd/Datasets/counters/data/Musson_counters_3/20200724_100703.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>4032</width>
+		<height>3024</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>screen</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>733</xmin>
+			<ymin>1102</ymin>
+			<xmax>3123</xmax>
+			<ymax>1837</ymax>
+		</bndbox>
+	</object>
+</annotation>
