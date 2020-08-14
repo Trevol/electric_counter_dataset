@@ -129,6 +129,8 @@ def extract_dataset(datasetDescriptions):
             if ann_file is None:
                 continue
             screenImg, digitBoxes, digitLabels = extract_screenImg_digitsAnnotations(img_file, ann_file)
+            if len(digitBoxes) == 0:
+                continue
             results.append((img_file, d.digits_dir, screenImg, digitBoxes, digitLabels))
 
     for img_file, digits_dir, screenImg, digitBoxes, digitLabels in results:
@@ -145,7 +147,7 @@ def extract_dataset(datasetDescriptions):
 
 
 def __main():
-    extract_dataset(datasetDescriptions[-2])
+    extract_dataset(datasetDescriptions[-2:])
 
 
 if __name__ == '__main__':

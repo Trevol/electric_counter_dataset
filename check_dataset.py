@@ -56,8 +56,8 @@ if __name__ == '__main__':
             # ("/hdd/Datasets/counters/data/0_from_internet/train", inplaceAnnotation),
             # ("/hdd/Datasets/counters/data/0_from_internet/val", inplaceAnnotation),
 
-            ("/hdd/Datasets/counters/data/1_from_phone/train", inplaceAnnotation),
-            ("/hdd/Datasets/counters/data/1_from_phone/val", inplaceAnnotation),
+            # ("/hdd/Datasets/counters/data/1_from_phone/train", inplaceAnnotation),
+            # ("/hdd/Datasets/counters/data/1_from_phone/val", inplaceAnnotation),
             # ("/hdd/Datasets/counters/data/1_from_phone/train", annotation_at_digits_annotations),
             # ("/hdd/Datasets/counters/data/1_from_phone/val", annotation_at_digits_annotations),
 
@@ -75,7 +75,9 @@ if __name__ == '__main__':
             # ("/hdd/Datasets/counters/data/Musson_counters/train", annotation_at_digits_annotations),
             # ("/hdd/Datasets/counters/data/Musson_counters/val", annotation_at_digits_annotations),
 
-            ("/hdd/Datasets/counters/data/8_from_phone/digits", inplaceAnnotation),
+            # ("/hdd/Datasets/counters/data/8_from_phone/digits", inplaceAnnotation),
+
+            ("/hdd/Datasets/counters/data/Musson_counters_3/digits", inplaceAnnotation),
         ]
         check(dirConfigs)
 
