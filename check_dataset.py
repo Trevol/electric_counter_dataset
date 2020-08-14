@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
             # ("/hdd/Datasets/counters/data/8_from_phone/digits", inplaceAnnotation),
 
-            ("/hdd/Datasets/counters/data/Musson_counters_3/digits", inplaceAnnotation),
+            ("/hdd/Datasets/counters/data/Musson_counters_2/digits", inplaceAnnotation),
         ]
         check(dirConfigs)
 

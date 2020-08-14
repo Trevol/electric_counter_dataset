@@ -33,25 +33,44 @@ def extract_screenImg_digitsAnnotations(img_file, ann_file):
     assert ann_file is not None
     p = PascalVocXmlParser(ann_file)
 
-    screenBox = None
+    screenBoxes = []
     digitBoxes = []
     digitLabels = []
     for b, l in zip(p.boxes(), p.labels()):
         if l == 'screen':
-            screenBox = b
+            screenBoxes.append(b)
         elif l == 'x':
             continue
         else:
             digitBoxes.append(b)
             digitLabels.append(l)
-    if screenBox is None:
-        raise Exception(f'screenBox is None. {img_file} {ann_file}')
+    if len(screenBoxes) == 0:
+        raise Exception(f'screenBoxes is empty. {img_file} {ann_file}')
 
     extraSpace = 5
-    screenImg = imgByBox(cv2.imread(img_file), screenBox, extraSpace=extraSpace)
-    x1, y1, *_ = screenBox
-    digitBoxes = shiftBoxes(digitBoxes, -(x1 - extraSpace), -(y1 - extraSpace))
-    return screenImg, digitBoxes, digitLabels
+    for screenBox in screenBoxes:
+        # find digit boxes inside screen
+        digitsInScreenBoxes, digitsInScreenLabels = findInnerBoxesAndLabels(screenBox, digitBoxes, digitLabels)
+        screenImg = imgByBox(cv2.imread(img_file), screenBox, extraSpace=extraSpace)
+        screenLeftX, screenTopY, *_ = screenBox
+        digitsInScreenBoxes = shiftBoxes(digitsInScreenBoxes, -(screenLeftX - extraSpace), -(screenTopY - extraSpace))
+        yield screenImg, digitsInScreenBoxes, digitsInScreenLabels
+
+
+def findInnerBoxesAndLabels(outerBox, testBoxes, testLabels):
+    innerBoxes = []
+    innerLabels = []
+    for testBox, testLabel in zip(testBoxes, testLabels):
+        if isInnerBox(outerBox, testBox):
+            innerBoxes.append(testBox)
+            innerLabels.append(testLabel)
+    return innerBoxes, innerLabels
+
+
+def isInnerBox(outerBox, testBox):
+    ox1, oy1, ox2, oy2 = outerBox
+    tx1, ty1, tx2, ty2 = testBox
+    return ox1 <= tx1 and oy1 <= ty1 and ox2 >= tx2 and oy2 >= ty2
 
 
 def SubElement(parent, tag, text="", attrib={}):
@@ -86,35 +105,6 @@ def writeAnnotation(annFile, imgFile, imgShape, boxes, labels):
     tree.write(annFile)
 
 
-def extract_dataset_(datasetDescriptions, annotations_dir):
-    digitsFolderName = 'digits'
-
-    digitsDirs = [os.path.join(d, digitsFolderName) for d in imagesDirs]
-
-    for d in digitsDirs:
-        os.makedirs(d, exist_ok=True)
-
-    results = []
-    for img_file in list_files(imagesDirs, IMAGES_EXTENSIONS):
-        ann_file = digitsAnnotationFile(img_file, annotations_dir)
-        if ann_file is None:
-            continue
-        screenImg, digitBoxes, digitLabels = extract_screenImg_digitsAnnotations(img_file, ann_file)
-        results.append((img_file, screenImg, digitBoxes, digitLabels))
-
-    for img_file, screenImg, digitBoxes, digitLabels in results:
-        parentDir, imgBaseName = os.path.split(img_file)
-        nameWithoutExt = os.path.splitext(imgBaseName)[0]
-        screenImgFile = os.path.join(parentDir, digitsFolderName, imgBaseName)
-        annFile = os.path.join(parentDir, digitsFolderName, nameWithoutExt + '.xml')
-
-        cv2.imwrite(screenImgFile, screenImg, [cv2.IMWRITE_JPEG_QUALITY, 100])
-        writeAnnotation(annFile, screenImgFile, screenImg.shape, digitBoxes, digitLabels)
-
-    labels = [str(i) for i in range(10)]
-    voc_to_yolo.convert(labels, digitsDirs)
-
-
 def extract_dataset(datasetDescriptions):
     digitsDirs = [os.path.join(d.image_path, d.digits_dir) for d in datasetDescriptions if d.digits_dir is not None]
     for d in digitsDirs:
@@ -128,10 +118,9 @@ def extract_dataset(datasetDescriptions):
             ann_file = digitsAnnotationFile(img_file, d.digits_annotations_dir0)
             if ann_file is None:
                 continue
-            screenImg, digitBoxes, digitLabels = extract_screenImg_digitsAnnotations(img_file, ann_file)
-            if len(digitBoxes) == 0:
-                continue
-            results.append((img_file, d.digits_dir, screenImg, digitBoxes, digitLabels))
+            for screenImg, digitBoxes, digitLabels in extract_screenImg_digitsAnnotations(img_file, ann_file):
+                if len(digitBoxes):
+                    results.append((img_file, d.digits_dir, screenImg, digitBoxes, digitLabels))
 
     for img_file, digits_dir, screenImg, digitBoxes, digitLabels in results:
         parentDir, imgBaseName = os.path.split(img_file)
