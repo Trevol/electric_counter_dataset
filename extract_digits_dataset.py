@@ -11,10 +11,12 @@ from trvo_utils.imutils import imgByBox, IMAGES_EXTENSIONS
 
 from trvo_utils.path_utils import list_files
 
-from dataset_paths import paths
+from dataset_paths import datasetDescriptions
 
 
 def digitsAnnotationFile(imgFile, annotations_dir):
+    if annotations_dir is None:
+        return None
     parent, file_ = os.path.split(imgFile)
     nameWithoutExt = os.path.splitext(file_)[0]
     ann_file = os.path.join(parent, annotations_dir, nameWithoutExt + '.xml')
@@ -37,6 +39,8 @@ def extract_screenImg_digitsAnnotations(img_file, ann_file):
     for b, l in zip(p.boxes(), p.labels()):
         if l == 'screen':
             screenBox = b
+        elif l == 'x':
+            continue
         else:
             digitBoxes.append(b)
             digitLabels.append(l)
@@ -82,7 +86,7 @@ def writeAnnotation(annFile, imgFile, imgShape, boxes, labels):
     tree.write(annFile)
 
 
-def extract_dataset(imagesDirs, annotations_dir):
+def extract_dataset_(datasetDescriptions, annotations_dir):
     digitsFolderName = 'digits'
 
     digitsDirs = [os.path.join(d, digitsFolderName) for d in imagesDirs]
@@ -111,9 +115,37 @@ def extract_dataset(imagesDirs, annotations_dir):
     voc_to_yolo.convert(labels, digitsDirs)
 
 
+def extract_dataset(datasetDescriptions):
+    digitsDirs = [os.path.join(d.image_path, d.digits_dir) for d in datasetDescriptions if d.digits_dir is not None]
+    for d in digitsDirs:
+        os.makedirs(d, exist_ok=True)
+
+    results = []
+    for d in datasetDescriptions:
+        if d.digits_annotations_dir0 is None:
+            continue
+        for img_file in list_files([d.image_path], IMAGES_EXTENSIONS):
+            ann_file = digitsAnnotationFile(img_file, d.digits_annotations_dir0)
+            if ann_file is None:
+                continue
+            screenImg, digitBoxes, digitLabels = extract_screenImg_digitsAnnotations(img_file, ann_file)
+            results.append((img_file, d.digits_dir, screenImg, digitBoxes, digitLabels))
+
+    for img_file, digits_dir, screenImg, digitBoxes, digitLabels in results:
+        parentDir, imgBaseName = os.path.split(img_file)
+        nameWithoutExt = os.path.splitext(imgBaseName)[0]
+        screenImgFile = os.path.join(parentDir, digits_dir, imgBaseName)
+        annFile = os.path.join(parentDir, digits_dir, nameWithoutExt + '.xml')
+
+        cv2.imwrite(screenImgFile, screenImg, [cv2.IMWRITE_JPEG_QUALITY, 100])
+        writeAnnotation(annFile, screenImgFile, screenImg.shape, digitBoxes, digitLabels)
+
+    labels = [str(i) for i in range(10)]
+    voc_to_yolo.convert(labels, digitsDirs)
+
+
 def __main():
-    annotations_dir = 'digits_annotations'
-    extract_dataset(paths, annotations_dir)
+    extract_dataset(datasetDescriptions[-2])
 
 
 if __name__ == '__main__':
