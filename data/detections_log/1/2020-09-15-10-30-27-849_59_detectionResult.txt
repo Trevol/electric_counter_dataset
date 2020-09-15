@@ -1,0 +1,5 @@
+---duration
+268
+---screenLocation
+663.0 491.0 913.0 557.0
+---digits

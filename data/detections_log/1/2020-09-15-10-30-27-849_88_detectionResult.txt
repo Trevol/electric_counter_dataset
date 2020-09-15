@@ -1,0 +1,5 @@
+---duration
+265
+---screenLocation
+346.0 437.0 612.0 512.0
+---digits
