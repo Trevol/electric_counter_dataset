@@ -1,13 +1,13 @@
 <annotation>
-	<folder>Musson_counters_3</folder>
-	<filename>20200724_095711.jpg</filename>
-	<path>/hdd/Datasets/counters/data/Musson_counters_3/20200724_095711.jpg</path>
+	<folder>train</folder>
+	<filename>000031.jpg</filename>
+	<path>/home/trevol/hdd/Datasets/counters/Musson_counters/train/000031.jpg</path>
 	<source>
 		<database>Unknown</database>
 	</source>
 	<size>
-		<width>4032</width>
-		<height>3024</height>
+		<width>960</width>
+		<height>1280</height>
 		<depth>3</depth>
 	</size>
 	<segmented>0</segmented>
@@ -17,22 +17,34 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>829</xmin>
-			<ymin>1182</ymin>
-			<xmax>904</xmax>
-			<ymax>1320</ymax>
+			<xmin>168</xmin>
+			<ymin>418</ymin>
+			<xmax>189</xmax>
+			<ymax>453</ymax>
 		</bndbox>
 	</object>
 	<object>
-		<name>0</name>
+		<name>2</name>
 		<pose>Unspecified</pose>
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>990</xmin>
-			<ymin>1167</ymin>
-			<xmax>1072</xmax>
-			<ymax>1309</ymax>
+			<xmin>207</xmin>
+			<ymin>418</ymin>
+			<xmax>227</xmax>
+			<ymax>453</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>5</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>243</xmin>
+			<ymin>415</ymin>
+			<xmax>263</xmax>
+			<ymax>450</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -41,58 +53,46 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>1157</xmin>
-			<ymin>1151</ymin>
-			<xmax>1233</xmax>
-			<ymax>1287</ymax>
+			<xmin>280</xmin>
+			<ymin>415</ymin>
+			<xmax>301</xmax>
+			<ymax>449</ymax>
 		</bndbox>
 	</object>
 	<object>
-		<name>9</name>
+		<name>8</name>
 		<pose>Unspecified</pose>
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>1325</xmin>
-			<ymin>1161</ymin>
-			<xmax>1398</xmax>
-			<ymax>1298</ymax>
+			<xmin>319</xmin>
+			<ymin>415</ymin>
+			<xmax>339</xmax>
+			<ymax>453</ymax>
 		</bndbox>
 	</object>
 	<object>
-		<name>1</name>
+		<name>5</name>
 		<pose>Unspecified</pose>
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>1502</xmin>
-			<ymin>1150</ymin>
-			<xmax>1549</xmax>
-			<ymax>1293</ymax>
+			<xmin>355</xmin>
+			<ymin>415</ymin>
+			<xmax>376</xmax>
+			<ymax>452</ymax>
 		</bndbox>
 	</object>
 	<object>
-		<name>9</name>
+		<name>4</name>
 		<pose>Unspecified</pose>
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>1652</xmin>
-			<ymin>1157</ymin>
-			<xmax>1725</xmax>
-			<ymax>1304</ymax>
-		</bndbox>
-	</object>
-	<object>
-		<name>7</name>
-		<pose>Unspecified</pose>
-		<truncated>0</truncated>
-		<difficult>0</difficult>
-		<bndbox>
-			<xmin>1820</xmin>
-			<ymin>1129</ymin>
-			<xmax>1893</xmax>
-			<ymax>1253</ymax>
+			<xmin>399</xmin>
+			<ymin>441</ymin>
+			<xmax>418</xmax>
+			<ymax>469</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -101,10 +101,10 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>664</xmin>
-			<ymin>1055</ymin>
-			<xmax>2079</xmax>
-			<ymax>1433</ymax>
+			<xmin>133</xmin>
+			<ymin>402</ymin>
+			<xmax>454</xmax>
+			<ymax>488</ymax>
 		</bndbox>
 	</object>
 </annotation>

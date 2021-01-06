@@ -1,0 +1,14 @@
+<annotation>
+	<folder>Musson_counters_3</folder>
+	<filename>20200724_095835.jpg</filename>
+	<path>/hdd/Datasets/counters/training_datasets/v0/Musson_counters_3/20200724_095835.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>4032</width>
+		<height>3024</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+</annotation>
