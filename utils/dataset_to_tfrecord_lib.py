@@ -84,21 +84,47 @@ def create_example(xml_file, class_text_to_index_dict: Dict, desired_classes: Li
     return example, numOfObjects
 
 
-def dataset_to_tfrecord(dataset_dir: str, all_classes: List[str], tfrecord_path: str, desired_classes: List[str] = None,
-                        shuffle=True):
-    class2index_map = {clazz: indx + 1 for indx, clazz in enumerate(all_classes)}
+def __dataset_directory_to_tfrecord(writer: tf.io.TFRecordWriter,
+                                    dataset_dir: str,
+                                    class2index_map: Dict[str, int],
+                                    desired_classes: List[str] = None,
+                                    shuffle=True):
+    annotation_path_list = glob.glob(os.path.join(dataset_dir, "*.xml"))
+    if shuffle:
+        random.shuffle(annotation_path_list)
+    else:
+        annotation_path_list = sorted(annotation_path_list)
+    totalNumOfObjects = 0
+    numOfImages = 0
+    for xml_file in annotation_path_list:
+        example, numOfExampleItems = create_example(xml_file, class2index_map, desired_classes)
+        writer.write(example.SerializeToString())
+        totalNumOfObjects += numOfExampleItems
+        numOfImages += 1
+    return totalNumOfObjects, numOfImages
 
+
+def dataset_directory_to_tfrecord(dataset_dir: str,
+                                  class2index_map: Dict[str, int],
+                                  tfrecord_path: str,
+                                  desired_classes: List[str] = None,
+                                  shuffle=True):
     with tf.io.TFRecordWriter(tfrecord_path) as writer:
-        list = glob.glob(os.path.join(dataset_dir, "*.xml"))
-        if shuffle:
-            random.shuffle(list)
-        else:
-            list = sorted(list)
-        totalNumOfObjects = 0
-        numOfImages = 0
-        for xml_file in list:
-            example, numOfExampleItems = create_example(xml_file, class2index_map, desired_classes)
-            writer.write(example.SerializeToString())
-            totalNumOfObjects += numOfExampleItems
-            numOfImages+=1
+        totalNumOfObjects, numOfImages = __dataset_directory_to_tfrecord(
+            writer, dataset_dir, class2index_map, desired_classes, shuffle)
         return totalNumOfObjects, numOfImages
+
+
+def dataset_directories_to_tfrecord(dataset_dirs: List[str],
+                                    class2index_map: Dict[str, int],
+                                    tfrecord_path: str,
+                                    desired_classes: List[str] = None,
+                                    shuffle=True):
+    with tf.io.TFRecordWriter(tfrecord_path) as writer:
+        totalNumOfObjects, totalNumOfImages = 0, 0
+        for dataset_dir in dataset_dirs:
+            numOfObjects, numOfImages = __dataset_directory_to_tfrecord(
+                writer, dataset_dir, class2index_map, desired_classes, shuffle)
+            totalNumOfObjects += numOfObjects
+            totalNumOfImages += numOfImages
+        return totalNumOfObjects, totalNumOfImages
