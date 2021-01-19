@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<annotation><folder>Unspecified</folder><filename>P_20200724_100850_002.jpg</filename><path>data/Musson_counters_2_1280x960/P_20200724_100850_002.jpg</path><source><database>Unknown</database></source><size><width>960</width><height>1280</height><depth>3</depth></size><segmented>0</segmented><object><name>screen</name><pose>Unspecified</pose><truncated>0</truncated><difficult>0</difficult><bndbox><xmin>120.5</xmin><ymin>393.5</ymin><xmax>731.0</xmax><ymax>582.0</ymax></bndbox></object></annotation>
