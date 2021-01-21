@@ -2,41 +2,12 @@ from glob import glob
 import os
 import cv2
 import numpy as np
-from trvo_utils import TODO, toInt_array
+from trvo_utils import toInt_array
 from trvo_utils.annotation import PascalVocXmlParser
-from trvo_utils.cv2gui_utils import imshowWait
 from trvo_utils.imutils import imWH
 
+from utils.box_utils import box_util
 from utils.pascal_voc_writer import PascalVocWriter
-
-
-class box_util:
-    @staticmethod
-    def width(box):
-        # 0123
-        # xyxy
-        return box[2] - box[0]  # x2-x1
-
-    @staticmethod
-    def height(box):
-        # 0123
-        # xyxy
-        return box[3] - box[1]  # y2-y1
-
-    @staticmethod
-    def size_wh(box):
-        return box_util.width(box), box_util.height(box)
-
-    @staticmethod
-    def ensure_containment(outer_size_wh, inner_box):
-        TODO()
-
-    @staticmethod
-    def draw(img, boxes):
-        for box in boxes:
-            x1, y1, x2, y2 = toInt_array(box)
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0))
-        return img
 
 
 def cropped_image_box(src_box, relative_pad_w, relative_pad_h, image_size_wh):
