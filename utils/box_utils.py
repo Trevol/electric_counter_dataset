@@ -1,15 +1,11 @@
 class box_utils:
     @staticmethod
     def width(xyxy_box):
-        # 0123
-        # xyxy
-        return xyxy_box[2] - xyxy_box[0]  # x2-x1
+        return box_utils.x2(xyxy_box) - box_utils.x1(xyxy_box)
 
     @staticmethod
     def height(xyxy_box):
-        # 0123
-        # xyxy
-        return xyxy_box[3] - xyxy_box[1]  # y2-y1
+        return box_utils.y2(xyxy_box) - box_utils.y1(xyxy_box)
 
     @staticmethod
     def x1(xyxy_box):
@@ -38,6 +34,10 @@ class box_utils:
     @staticmethod
     def size_wh(xyxy_box):
         return box_utils.width(xyxy_box), box_utils.height(xyxy_box)
+
+    @staticmethod
+    def size_hw(xyxy_box):
+        return box_utils.height(xyxy_box), box_utils.width(xyxy_box)
 
     @staticmethod
     def area(xyxy_box):
