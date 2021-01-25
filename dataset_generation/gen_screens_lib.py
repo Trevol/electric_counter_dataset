@@ -8,9 +8,7 @@ from trvo_utils.cv2gui_utils import imshowWait
 import numpy as np
 from trvo_utils.imutils import imWH, img_by_xyxy_box_unsafe
 
-from dataset_generation.augmentations import Augmentations
 from dataset_generation.box_drawer import box_drawer
-from dataset_generation.dataset_gen import AugmentedGenerator
 from utils.box_utils import box_utils
 from utils.dataset_directory import DatasetDirectory
 import random
@@ -36,9 +34,9 @@ class screen_view_sampler:
     @classmethod
     def views(cls, n_screen_views, img, screen_box, boxes, view_wh_ratio, area_limit, min_distance,
               fill_value):
-        for _ in range(n_screen_views):
+        for num_of_view in range(n_screen_views):
             v = cls.view(img, screen_box, boxes, view_wh_ratio, area_limit, min_distance, fill_value)
-            yield v
+            yield num_of_view, v
 
     @classmethod
     def _rnd_view_box(cls, screen_box, view_wh_ratio, area_limit, min_distance):
@@ -112,37 +110,32 @@ class screen_view_sampler:
         return view_img
 
 
-def main():
-    mobile_roi_w, mobile_roi_h = 400, 180
-
-    dataset_dir = "../training_datasets/v1/Musson_counters"
-    augmenter = AugmentedGenerator(Augmentations(p=1.0), padding=.2)
-    img, boxes, labels, img_path, ann_path, ann_exist = next(DatasetDirectory(dataset_dir).load_and_parse())
-    screen_box = next(b for (b, l) in zip(boxes, labels) if l == "screen")
-    n_screen_views = 1000
-
-    view_samples = screen_view_sampler.views(
-        n_screen_views=n_screen_views,
-        img=img,
-        screen_box=screen_box,
-        boxes=boxes,
-        view_wh_ratio=mobile_roi_w / mobile_roi_h,
-        area_limit=(2, 8),
-        min_distance=10,
-        fill_value=0)
-    for view_img, view_boxes, view_box_in_img in view_samples:
-
-        disp_img = img.copy()
-        box_drawer.xyxy(disp_img, [view_box_in_img], color=(0, 255, 0)),
-        box_drawer.xyxy(disp_img, boxes)
-
-        view_box_in_img = Rect.fromXyxy(toInt_array(view_box_in_img))
-        dummy_img = np.zeros([view_box_in_img.h, view_box_in_img.w, 3], np.uint8)
-        box_drawer.xyxy(dummy_img, view_boxes)
-
-        key = imshowWait(disp_img, dummy_img, view_img)
-        if key == 27: break
-
-
 if __name__ == '__main__':
+    def main():
+        mobile_roi_w, mobile_roi_h = 400, 180
+
+        dataset_dir = "../training_datasets/v1/Musson_counters"
+        img, boxes, labels, img_path, ann_path, ann_exist = next(DatasetDirectory(dataset_dir).load_and_parse())
+        screen_box = next(b for (b, l) in zip(boxes, labels) if l == "screen")
+        n_screen_views = 1000
+
+        view_samples = screen_view_sampler.views(
+            n_screen_views=n_screen_views,
+            img=img,
+            screen_box=screen_box,
+            boxes=boxes,
+            view_wh_ratio=mobile_roi_w / mobile_roi_h,
+            area_limit=(2, 8),
+            min_distance=10,
+            fill_value=0)
+        for num_of_view, (view_img, view_boxes, view_box_in_img) in view_samples:
+
+            disp_img = img.copy()
+            box_drawer.xyxy(disp_img, [view_box_in_img], color=(0, 255, 0)),
+            box_drawer.xyxy(disp_img, boxes)
+
+            key = imshowWait(disp_img, view_img)
+            if key == 27: break
+
+
     main()

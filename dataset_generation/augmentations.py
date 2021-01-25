@@ -50,9 +50,9 @@ class Augmentations:
                 Sharpen(),
                 Emboss(),
                 RandomBrightnessContrast(),
-            ], p=0.6),
-            HueSaturationValue(p=0.6),
-            RGBShift(40, 40, 40, p=.6),
+            ], p=0.8),
+            HueSaturationValue(p=0.8),
+            RGBShift(40, 40, 40, p=.8),
             # Invert(p=.5)
         ], bbox_params=bbox_params, p=p)
 

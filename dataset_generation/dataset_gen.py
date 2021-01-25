@@ -2,12 +2,15 @@ import os
 from itertools import repeat
 
 import numpy as np
+from cv2 import cv2
 from trvo_utils.cv2gui_utils import imshowWait
 from trvo_utils.imutils import imHW, fit_image_boxes_to_shape
 
 from dataset_generation.augmentations import Augmentations
 from dataset_generation.box_drawer import box_drawer
+from dataset_generation.gen_screens_lib import screen_view_sampler
 from utils.dataset_directory import DatasetDirectory
+from utils.pascal_voc_writer import PascalVocWriter
 
 
 class padder:
@@ -86,31 +89,67 @@ class AugmentedGenerator:
         # Pad image/boxes to avoid cropping during transformations
         padded_img, padded_boxes = padder.pad_annotated_image(src_img, src_boxes,
                                                               padding=self.padding, pad_value=self.pad_value)
-        for _ in repeat(None, n):
+        for num in range(n):
             augm_img, augm_boxes, augm_labels = self.augmentations(padded_img, padded_boxes, src_labels)
-            yield augm_img, augm_boxes, augm_labels
+            yield num, (augm_img, augm_boxes, augm_labels)
 
     def __call__(self, src_img, src_boxes, src_labels, n):
         return self.generate(src_img, src_boxes, src_labels, n)
 
 
 def main():
-    mobile_roi_wh = 400, 180
+    mobile_roi_w, mobile_roi_h = 400, 180
     src_dst_dataset_dirs = [
         ("../training_datasets/v1/Musson_counters", "../training_datasets/v1_generated/Musson_counters"),
         ("../training_datasets/v1/Musson_counters_3_1280x960", "../training_datasets/v1_generated/Musson_counters_3")
     ]
-    # TODO("skip two (or more) annotated screens")
+
     # TODO("If only screen is annotated (there is no annotated digits) - make this sample negative")
     # TODO("Collect negative samples. Hard negative mining???")
     augmenter = AugmentedGenerator(Augmentations(p=1.0), padding=.2)
-    num_of_augmentations = 100
 
+    num_of_augmentations = 10
+    n_screen_views = 5
+
+    i = 0
     for src_dataset_dir, dst_dataset_dir in src_dst_dataset_dirs:
         os.makedirs(dst_dataset_dir, exist_ok=True)
+
         for img, boxes, labels, img_path, ann_path, ann_exist in DatasetDirectory(src_dataset_dir).load_and_parse():
-            for (augm_img, augm_boxes, augm_labels) in augmenter(img, boxes, labels, num_of_augmentations):
-                if show(augm_img, augm_boxes) == 'esc': return
+            if not ann_exist:
+                continue
+            screen_boxes = [b for (b, l) in zip(boxes, labels) if l == "screen"]
+            if len(screen_boxes) != 1:
+                continue
+            if len(boxes) == 1:  # only screen is annotated
+                continue
+
+            img_file_name = os.path.split(img_path)[1]
+            img_base_name, img_ext = os.path.splitext(img_file_name)
+
+            for version_of_img, (augm_img, augm_boxes, augm_labels) in augmenter(img, boxes, labels,
+                                                                                 num_of_augmentations):
+                screen_box = next(b for (b, l) in zip(augm_boxes, augm_labels) if l == "screen")
+                view_samples = screen_view_sampler.views(
+                    n_screen_views=n_screen_views,
+                    img=augm_img,
+                    screen_box=screen_box,
+                    boxes=augm_boxes,
+                    view_wh_ratio=mobile_roi_w / mobile_roi_h,
+                    area_limit=(2, 12),
+                    min_distance=10,
+                    fill_value=0)
+                for num_of_view, (view_img, view_boxes, view_box_in_img) in view_samples:
+                    dst_img_base_name = f"{img_base_name}_{version_of_img:04d}_{num_of_view:04d}"
+                    dst_img_file_name = dst_img_base_name + img_ext
+                    dst_ann_file_name = dst_img_base_name + '.xml'
+                    dst_img_path = os.path.join(dst_dataset_dir, dst_img_file_name)
+                    dst_ann_path = os.path.join(dst_dataset_dir, dst_ann_file_name)
+                    cv2.imwrite(dst_img_path, view_img, [cv2.IMWRITE_JPEG_QUALITY, 100])
+                    PascalVocWriter.write(dst_ann_path, dst_img_path, view_img.shape, view_boxes, augm_labels)
+                    i += 1
+                    if i % 50 == 0:
+                        print(i)
 
 
 if __name__ == '__main__':
