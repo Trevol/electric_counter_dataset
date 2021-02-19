@@ -1,0 +1,1 @@
+{"frameId":215,"rawDetection":{"screenDetection":null,"digitsDetections":[{"digit":3,"score":0.43460432,"location":{"left":286.08344,"top":192.12404,"right":310.92468,"bottom":232.47733}},{"digit":1,"score":0.24185185,"location":{"left":221.5835,"top":187.90771,"right":246.61412,"bottom":235.86963}}]},"finalDigitsDetections":[],"detectionMs":28,"trackingMs":0}
