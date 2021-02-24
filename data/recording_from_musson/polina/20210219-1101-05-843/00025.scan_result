@@ -1,0 +1,1 @@
+{"frameId":25,"scanResult":{"digitsAtLocations":[],"aggregatedDetections":[{"location":{"left":313.88153,"top":254.62918,"right":330.305,"bottom":278.354},"score":0.36818683,"digitsCounts":[{"digit":3,"count":1},{"digit":5,"count":1},{"digit":8,"count":1}]}],"readingInfo":null,"consumerInfo":null},"analyzeStepMs":35}
