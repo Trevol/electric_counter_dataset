@@ -8,7 +8,7 @@ from trvo_utils.cv2gui_utils import imshowWait
 import numpy as np
 from trvo_utils.imutils import imWH, img_by_xyxy_box_unsafe
 
-from dataset_generation.box_drawer import box_drawer
+from utils.box_drawer import box_drawer
 from utils.box_utils import box_utils
 from utils.dataset_directory import DatasetDirectory
 import random

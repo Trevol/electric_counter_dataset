@@ -6,7 +6,7 @@ from trvo_utils import toInt_array
 from trvo_utils.annotation import PascalVocXmlParser
 from trvo_utils.imutils import imWH
 
-from utils.box_utils import box_util
+from utils.box_utils import box_utils
 from utils.pascal_voc_writer import PascalVocWriter
 
 

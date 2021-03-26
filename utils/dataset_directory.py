@@ -8,7 +8,7 @@ class DatasetDirectory:
     def __init__(self, directory):
         self.directory = directory
 
-    def item_paths(self):
+    def __item_paths(self):
         img_path_pattern = os.path.join(self.directory, "*.jpg")
         for img_path in sorted(glob(img_path_pattern)):
             base_name = os.path.splitext(img_path)[0]
@@ -17,7 +17,7 @@ class DatasetDirectory:
             yield img_path, ann_path, ann_exist
 
     def load_and_parse(self):
-        for img_path, ann_path, ann_exist in self.item_paths():
+        for img_path, ann_path, ann_exist in self.__item_paths():
             img = cv2.imread(img_path)
             if ann_exist:
                 boxes, labels = PascalVocXmlParser(ann_path).annotation()

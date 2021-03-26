@@ -6,9 +6,9 @@ from cv2 import cv2
 from trvo_utils.cv2gui_utils import imshowWait
 from trvo_utils.imutils import imHW, fit_image_boxes_to_shape
 
-from dataset_generation.augmentations import Augmentations
-from dataset_generation.box_drawer import box_drawer
-from dataset_generation.gen_screens_lib import screen_view_sampler
+from utils.augmentations import Augmentations
+from utils.box_drawer import box_drawer
+from utils.gen_screens_lib import screen_view_sampler
 from utils.dataset_directory import DatasetDirectory
 from utils.pascal_voc_writer import PascalVocWriter
 
@@ -54,12 +54,6 @@ class padder:
         return padded_img, padded_boxes
 
 
-def fit_to_screen(img, boxes):
-    screen_shape = (1850, 950)
-    img, boxes, _ = fit_image_boxes_to_shape(img, boxes, screen_shape)
-    return img, boxes
-
-
 def prepared_images(augmenter, src_dataset_dir, padding=.5, pad_value=0):
     for img, boxes, labels, img_path, ann_path, ann_exist in DatasetDirectory(src_dataset_dir).load_and_parse():
         # Pad image/boxes to avoid cropping during transformations
@@ -68,15 +62,23 @@ def prepared_images(augmenter, src_dataset_dir, padding=.5, pad_value=0):
         yield (augm_img, augm_boxes, augm_labels), (img, boxes, labels), (img_path, ann_path, ann_exist)
 
 
-def show(augm_img, augm_boxes, img=None, boxes=None):
-    if img is not None:
-        img = box_drawer.xyxy(*fit_to_screen(img, boxes))
-    augm_img = box_drawer.xyxy(*fit_to_screen(augm_img, augm_boxes))
-    key = imshowWait(
-        img,
-        augm_img
-    )
-    if key == 27: return "esc"
+class visualizer:
+    @staticmethod
+    def fit_to_screen(img, boxes):
+        screen_shape = (1850, 950)
+        img, boxes, _ = fit_image_boxes_to_shape(img, boxes, screen_shape)
+        return img, boxes
+
+    @classmethod
+    def show(cls, augm_img, augm_boxes, img=None, boxes=None):
+        if img is not None:
+            img = box_drawer.xyxy(*cls.fit_to_screen(img, boxes))
+        augm_img = box_drawer.xyxy(*cls.fit_to_screen(augm_img, augm_boxes))
+        key = imshowWait(
+            img,
+            augm_img
+        )
+        if key == 27: return "esc"
 
 
 class AugmentedGenerator:
