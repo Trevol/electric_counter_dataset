@@ -1,0 +1,26 @@
+<annotation>
+	<folder>20210219-1054-19-274</folder>
+	<filename>00323.jpg</filename>
+	<path>/hdd/Datasets/counters/data/recording_from_musson/1_trvo/20210219-1054-19-274/00323.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>480</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>screen</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>394</xmin>
+			<ymin>129</ymin>
+			<xmax>560</xmax>
+			<ymax>171</ymax>
+		</bndbox>
+	</object>
+</annotation>
