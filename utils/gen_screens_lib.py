@@ -40,11 +40,17 @@ class screen_view_sampler:
 
     @classmethod
     def _rnd_view_box(cls, screen_box, view_wh_ratio, area_limit, min_distance):
+        rnd_area_limit = cls.rnd.from_limit(area_limit)
         view_box_w, view_box_h = cls.box_wh(
-            box_area=box_utils.area(screen_box) * cls.rnd.from_limit(area_limit),
+            box_area=box_utils.area(screen_box) * rnd_area_limit,
             wh_ratio=view_wh_ratio)
-        assert view_box_w > (box_utils.width(screen_box) + min_distance * 2)
-        assert view_box_h > (box_utils.height(screen_box) + min_distance * 2)
+        try:
+            assert view_box_w > (box_utils.width(screen_box) + min_distance * 2)
+            assert view_box_h > (box_utils.height(screen_box) + min_distance * 2)
+        except Exception:
+            print("AssertionError!!", rnd_area_limit)
+            raise
+
         # 1) random box origin - x1, y1. Calculate using min_distance and screen_box_wh
         x_min = box_utils.x2(screen_box) + min_distance - view_box_w
         x_max = box_utils.x1(screen_box) - min_distance
